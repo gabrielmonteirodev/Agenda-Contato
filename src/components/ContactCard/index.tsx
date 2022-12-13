@@ -9,7 +9,7 @@ function ContactCard() {
           width: "100%",
           height: 500,
           borderColor: "red",
-          marginTop: 40,
+          marginTop: 10,
         }}>            
         </Card>
   );

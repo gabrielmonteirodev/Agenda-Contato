@@ -1,8 +1,15 @@
-import { Button, Space } from "antd";
+import { Button } from "antd";
 import React from "react";
+import "./styles.css";
 
-function AddButton(){
-    <Button type="primary" danger>+</Button>
+function AddButton() {
+  return (
+    <div className="agenda-button-add">
+      <Button danger>
+        Novo
+      </Button>
+    </div>
+  );
 }
 
-export default AddButton();
+export default AddButton;
