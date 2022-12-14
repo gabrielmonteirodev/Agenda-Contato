@@ -1,12 +1,16 @@
 import { Button } from "antd";
 import React from "react";
-import "./styles.css"
+
 
 function RemoveButton() {
   return (
     <div className="agenda-button-remove">
-      <Button danger>
-        Remover
+      <Button  style={{display:'inline-block',
+      marginLeft:'0%',
+      flexDirection:'row',
+      position:'relative'    
+      }} danger>
+        <span>Remover</span>
       </Button>
     </div>
   );
