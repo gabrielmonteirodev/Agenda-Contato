@@ -1,13 +1,12 @@
-import React, { useState } from "react";
-import "./styles.css";
+import React, { useState } from "react"
 import { Button, Form, Input, Modal } from "antd";
 
 interface Values {
-  title: string;
-  description: string;
-  telNumber: string;
+  nome: string;
+  sobreNome: string;
+  tellNumber: string;
   cellNumber:string;
-  modifier: string;
+  observation: string;
 }
 
 interface CollectionCreateFormProps {
@@ -25,9 +24,9 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
   return (
     <Modal
       open={open}
-      title="Create a new collection"
-      okText="Create"
-      cancelText="Cancel"
+      title="Adicionando um novo contato"
+      okText="Adicionar"
+      cancelText="Cancelar"
       onCancel={onCancel}
       onOk={() => {
         form
@@ -48,7 +47,7 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
         initialValues={{ modifier: "public" }}
       >
         <Form.Item
-          name="Nome"
+          name="nome"
           label="Nome"
           rules={[
             { required: true, message: "Por favor, insira um nome para o seu contato" }
@@ -56,10 +55,30 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
         >
           <Input />
         </Form.Item>
-        <Form.Item name="Sobrenome" label="Sobrenome">
+        <Form.Item name="sobrenome"
+        label="Sobrenome"
+        rules={[{
+          required:true, message:"Insira um sobrenome para o seu contato" 
+        }]}
+        >
           <Input type="textarea" />
         </Form.Item>
-        <Form.Item name="DDD" label="DDD">
+        <Form.Item name ="tellNumber" 
+        label="Telefone"
+        >
+          <Input  type="textarea"/>
+        </Form.Item>
+        <Form.Item name ="cellNumber" 
+        label="Celular"
+        rules={[{
+          required:true, message:"Insira um numero de celular para o seu contato" 
+        }]}
+        >
+          <Input type="textarea" />
+        </Form.Item>
+        <Form.Item name ="observation" 
+        label="OBS:"
+        >
           <Input type="textarea" />
         </Form.Item>
       </Form>
