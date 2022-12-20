@@ -101,7 +101,7 @@ const AddButton: React.FC = () => {
         onClick={() => {
           setOpen(true);
         }}
-        style={{marginRight:"10px",
+        style={{marginRight:"0px",
       display:"flex"}}
       >
         Novo

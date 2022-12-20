@@ -1,17 +1,28 @@
-import { Button } from "antd";
+import { Button, message, Popconfirm } from "antd";
 import React from "react";
 
+const text = 'Certeza que deseja deletar esses contatos?';
+
+const confirm = () => {
+  message.info('Contato deletado com sucesso.');
+};
 
 function RemoveButton() {
   return (
     <div className="agenda-button-remove">
-      <Button  style={{display:'inline-block',
-      marginLeft:'0%',
-      flexDirection:'row',
-      position:'relative'    
-      }} danger>
-        <span>Remover</span>
-      </Button>
+      <Popconfirm placement="top" title={text} onConfirm={confirm} okText="Sim" cancelText="Não" >
+        <Button
+          style={{
+            display: "inline-block",
+            marginRight: "8px",
+            flexDirection: "row",
+            position: "relative",
+          }}
+          danger
+        >
+          <span>Remover</span>
+        </Button>
+      </Popconfirm>
     </div>
   );
 }

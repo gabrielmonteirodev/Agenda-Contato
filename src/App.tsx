@@ -14,8 +14,8 @@ function App() {
           <div className="container-contact">
             <div className="container-contact-button">
               <Row justify="end">
-                <Col span={1.5}><AddButton/></Col>
-                <Col span={1.5}><RemoveButton/> </Col>
+                <Col span={1.5}><RemoveButton/></Col>
+                <Col span={1.5}><AddButton/> </Col>
               </Row>
             </div>
             <div className="container-contact-card">

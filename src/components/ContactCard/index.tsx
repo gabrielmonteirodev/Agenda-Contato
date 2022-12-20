@@ -1,5 +1,5 @@
 import React from "react";
-import { Card} from "antd";
+import { Card } from "antd";
 import "./styles.css";
 
 function ContactCard() {
@@ -10,7 +10,8 @@ function ContactCard() {
           height: 500,
           borderColor: "red",
           marginTop: 10,
-        }}>            
+        }}>
+
         </Card>
   );
 }
