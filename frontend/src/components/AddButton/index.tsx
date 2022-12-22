@@ -1,4 +1,6 @@
 import React, { useState } from "react"
+import 'react-phone-number-input/styles.css'
+import PhoneInput from 'react-phone-number-input';
 import { Button, Form, Input, Modal } from "antd";
 
 interface Values {
@@ -20,6 +22,7 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
   onCreate,
   onCancel
 }) => {
+  const [value, setValue] =useState();
   const [form] = Form.useForm();
   return (
     <Modal
@@ -66,7 +69,12 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
         <Form.Item name ="tellNumber" 
         label="Telefone"
         >
-          <Input  type="textarea"/>
+          <PhoneInput 
+          placeholder='Insira um numero de telefone'
+          value={value}
+          onChange={setValue}
+          />
+
         </Form.Item>
         <Form.Item name ="cellNumber" 
         label="Celular"

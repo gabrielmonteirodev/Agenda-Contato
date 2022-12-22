@@ -47,12 +47,19 @@ app.post('/contact/create',async(req,res)=>{
 app.put('/contact/update/:id', async (req,res) =>{
     const {id} = req.params as contact 
     console.log(id)
-    const postUpdate= await prisma.contato.update({
-        where: {id: Number(id)}
+    const contactUpdate= await prisma.contato.update({
+        where: {id: Number(id)},
+        data: {...req.body as contact}
     })    
-    return(postUpdate)
+    return(contactUpdate)
 })
 
+app.delete('/contact/delete/:id', async(req,res) =>{
+    const {id} = req.params as contact
+    const contactDelete = await prisma.contato.delete({
+        where : {id :Number(id)}
+    })
+})
 app.listen({port:3001}, async(err,address)=>{
     if(err){
         console.error(err)
