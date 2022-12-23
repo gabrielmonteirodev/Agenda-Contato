@@ -1,7 +1,8 @@
 import React, { useState } from "react"
-import 'react-phone-number-input/styles.css'
-import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
 import { Button, Form, Input, Modal } from "antd";
+import './styles.css'
 
 interface Values {
   nome: string;
@@ -22,7 +23,7 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
   onCreate,
   onCancel
 }) => {
-  const [value, setValue] =useState();
+  const[value,setValue] = useState<string[]>([]);
   const [form] = Form.useForm();
   return (
     <Modal
@@ -69,11 +70,11 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
         <Form.Item name ="tellNumber" 
         label="Telefone"
         >
-          <PhoneInput 
+        <PhoneInput
           placeholder='Insira um numero de telefone'
-          value={value}
-          onChange={setValue}
-          />
+          values={value}
+          onChange={(string)=>setValue}
+        />
 
         </Form.Item>
         <Form.Item name ="cellNumber" 
@@ -82,7 +83,11 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
           required:true, message:"Insira um numero de celular para o seu contato" 
         }]}
         >
-          <Input type="textarea" />
+          <PhoneInput
+          placeholder='Insira um numero de telefone'
+          values={value}
+          onChange={(string)=>setValue}
+        />
         </Form.Item>
         <Form.Item name ="observation" 
         label="OBS:"
