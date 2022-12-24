@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 import { Button, Form, Input, Modal } from "antd";
-import './styles.css'
 
 interface Values {
   nome: string;
@@ -99,7 +98,7 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
   );
 };
 
-const AddButton: React.FC = () => {
+const UpdateButton: React.FC = () => {
   const [open, setOpen] = useState(false);
 
   const onCreate = (values: any) => {
@@ -114,10 +113,10 @@ const AddButton: React.FC = () => {
         onClick={() => {
           setOpen(true);
         }}
-        style={{marginRight:"0px",
+        style={{marginLeft:"7px",
       display:"flex"}}
       >
-        Novo
+        Atualizar
       </Button>
       <CollectionCreateForm
         open={open}
@@ -130,4 +129,4 @@ const AddButton: React.FC = () => {
   );
 };
 
-export default AddButton;
+export default UpdateButton;

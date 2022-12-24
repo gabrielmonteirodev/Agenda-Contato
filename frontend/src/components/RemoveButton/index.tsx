@@ -14,7 +14,7 @@ function RemoveButton() {
         <Button
           style={{
             display: "inline-block",
-            marginRight: "8px",
+            marginLeft: "6px",
             flexDirection: "row",
             position: "relative",
           }}

@@ -10,7 +10,7 @@ function Header() {
         <h1>Agenda de Contato</h1>
         <p>
           Desenvolvido por
-          <a href="https://github.com/gabrielmonteirodev"> gabrielmonteirodev</a>
+          <a href="https://github.com/gabrielmonteirodev/Agenda-Contato"> gabrielmonteirodev</a>
         </p>
       </div>
     </header>
