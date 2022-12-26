@@ -100,7 +100,6 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
 
 const UpdateButton: React.FC = () => {
   const [open, setOpen] = useState(false);
-
   const onCreate = (values: any) => {
     console.log("Received values of form: ", values);
     setOpen(false);

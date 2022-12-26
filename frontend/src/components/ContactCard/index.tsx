@@ -1,10 +1,12 @@
 import React , { useState }from "react";
 import { Card, Radio, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import "./styles.css";
+import api  from "../../services/contactService";
+import { useQuery } from "react-query";
+
 
 interface DataType {
-  key: React.Key;
+  id: number;
   name: string;
   lastName: string;
   tellNumber: string;
@@ -35,41 +37,8 @@ const columns: ColumnsType<DataType> = [
   },
 ];
 
-const data: DataType[] = [
-  {
-    key: "1",
-    name: "Gabriel",
-    lastName: "Monteiro de Matos",
-    tellNumber: "6133822208",
-    cellNumber: "61993683423",
-    observation: "Estagiario Suporte"
-  },
-  {
-    key: "2",
-    name: "Thiago",
-    lastName: "Araujo",
-    tellNumber: "6133688252",
-    cellNumber: "61988285758",
-    observation: "Analista de TI"
-  },
-  {
-    key: "3",
-    name: "Lucas",
-    lastName: "D'Avila",
-    tellNumber: "6138928462",
-    cellNumber: "61987522348",
-    observation: "Analista de TI"
-  },
-  {
-    key: "4",
-    name: "Diogo",
-    lastName: "Costa",
-    tellNumber: "6136985225",
-    cellNumber: "61999845248",
-    observation: "Analista de TI"
-  },
 
-];
+
 
 const rowSelection = {
   onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
@@ -82,6 +51,7 @@ const rowSelection = {
 };
 function ContactCard() {
   const [selectionType, setSelectionType] = useState<'radio'>('radio');  
+  const {data}  = useQuery('Contact-card', api.findAll)
   return (
     <Card
       style={{
