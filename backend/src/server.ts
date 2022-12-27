@@ -1,10 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import fastify from "fastify";
 
-
 const app = fastify();
 const prisma = new PrismaClient();
-
 
 export type contact={
     id : number
@@ -14,6 +12,18 @@ export type contact={
     cellNumber: string
     observation: string
 }
+
+app.register(require('@fastify/cors'), {
+    origin: true,
+    allowedHeaders: [
+        'Origin', 
+        'X-Requested-With', 
+        'Accept', 
+        'Content-Type', 
+        'Authorization'
+    ],
+    methods: ['GET', 'PUT', 'OPTIONS', 'POST', 'DELETE'],
+  });
 
 app.get ('/contact', async(req,res)=>{
     const contacts= await prisma.contato.findMany()
@@ -60,6 +70,8 @@ app.delete('/contact/delete/:id', async(req,res) =>{
         where : {id :Number(id)}
     })
 })
+
+
 app.listen({port:3001}, async(err,address)=>{
     if(err){
         console.error(err)
