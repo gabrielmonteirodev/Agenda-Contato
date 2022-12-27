@@ -12,7 +12,6 @@ export type contact={
     cellNumber: string
     observation: string
 }
-
 app.register(require('@fastify/cors'), {
     origin: true,
     allowedHeaders: [
@@ -24,7 +23,6 @@ app.register(require('@fastify/cors'), {
     ],
     methods: ['GET', 'PUT', 'OPTIONS', 'POST', 'DELETE'],
   });
-
 app.get ('/contact', async(req,res)=>{
     const contacts= await prisma.contato.findMany()
     console.log(contacts)
