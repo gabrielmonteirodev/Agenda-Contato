@@ -5,7 +5,7 @@ import api  from "../../services/contactService";
 import { useQuery } from "react-query";
 
 
-interface DataType {
+interface contactType {
   id: number;
   name: string;
   lastName: string;
@@ -14,7 +14,8 @@ interface DataType {
   observation:string;
 }
 
-const columns: ColumnsType<DataType> = [
+const columns: ColumnsType<contactType> = [
+
   {
     title: "Nome",
     dataIndex: "name",
@@ -41,7 +42,7 @@ const columns: ColumnsType<DataType> = [
 
 
 const rowSelection = {
-  onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
+  onChange: (selectedRowKeys: React.Key[], selectedRows: contactType[]) => {
     console.log(
       `selectedRowKeys: ${selectedRowKeys}`,
       "selectedRows: ",
@@ -50,8 +51,8 @@ const rowSelection = {
   },
 };
 function ContactCard() {
-  const [selectionType, setSelectionType] = useState<'radio'>('radio');  
-  const {data}  = useQuery('Contact-card', api.findAll)
+  const [selectionType, setSelectionType] = useState<'checkbox'>('checkbox');  
+  const {data}  = useQuery('contactType', api.findAll)  
   return (
     <Card
       style={{
@@ -76,7 +77,7 @@ function ContactCard() {
             ...rowSelection,
           }}
           columns={columns}
-          dataSource={data}
+          dataSource={data?.contacts}
         />
       </div>
     </Card>
