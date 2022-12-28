@@ -38,10 +38,11 @@ app.get('/contact/:id', async (req,res) =>{
     return(post)
 })
 
-app.post('/contact/create',async(req,res)=>{
-    const {name, lastName, tellNumber, cellNumber,observation } = req.body as contact
+app.post('/contact/create/',async(req,res)=>{
+    const {id,name, lastName, tellNumber, cellNumber,observation } = req.body as contact
     const newContact = await prisma.contato.create({
         data: {
+            id,
             name,
             lastName,
             tellNumber,
