@@ -3,10 +3,12 @@ import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 import { Button, Form, Input, Modal } from "antd";
 import './styles.css'
+import api  from "../../services/contactService";
+import { useMutation } from "react-query";
 
 interface Values {
-  nome: string;
-  sobreNome: string;
+  name: string;
+  lastName: string;
   tellNumber: string;
   cellNumber:string;
   observation: string;
@@ -23,8 +25,9 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
   onCreate,
   onCancel
 }) => {
-  const[value,setValue] = useState<string[]>([]);
+  const[setValue] = useState<string[]>([]);
   const [form] = Form.useForm();
+  const {data} = useMutation('contactCreate', api.create)
   return (
     <Modal
       open={open}
@@ -51,28 +54,28 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
         initialValues={{ modifier: "public" }}
       >
         <Form.Item
-          name="nome"
+          name="name"
           label="Nome"
           rules={[
             { required: true, message: "Por favor, insira um nome para o seu contato" }
           ]}
         >
-          <Input />
+          <Input  value={data?.name}/>
         </Form.Item>
-        <Form.Item name="sobrenome"
+        <Form.Item name="lastName"
         label="Sobrenome/Apelido"
         rules={[{
           required:true, message:"Insira um sobrenome para o seu contato" 
         }]}
         >
-          <Input type="textarea" />
+          <Input type="textarea" value={data?.lastName} />
         </Form.Item>
         <Form.Item name ="tellNumber" 
         label="Telefone"
         >
         <PhoneInput
           placeholder=''
-          values={value}
+          values={data?.tellNumber}
           onChange={(string)=>setValue}
         />
 
@@ -85,14 +88,14 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
         >
           <PhoneInput
           placeholder=''
-          values={value}
+          values={data?.cellNumber}
           onChange={(string)=>setValue}
         />
         </Form.Item>
         <Form.Item name ="observation" 
         label="OBS:"
         >
-          <Input type="textarea" />
+          <Input type="textarea" value={data?.observation}/>
         </Form.Item>
       </Form>
     </Modal>
@@ -101,9 +104,9 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
 
 const AddButton: React.FC = () => {
   const [open, setOpen] = useState(false);
-
-  const onCreate = (values: any) => {
-    console.log("Received values of form: ", values);
+  const onCreate = async (values: any) => {
+    api.create(values)
+    console.log("Received values of form: ", values);    
     setOpen(false);
   };
 

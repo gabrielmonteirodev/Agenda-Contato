@@ -17,7 +17,7 @@ const findById = async(id:any)=>{
 }
 
 const create = async({id, name,lastName, tellNumber, cellNumber, observation }: Contact ) => {
-    const response = await apiClient.post<any>("/contact/create", {id, name, lastName, tellNumber,cellNumber,observation})
+    const response = await apiClient.post<any>(`/contact/create/`, {id,name, lastName, tellNumber,cellNumber,observation})
     return response.data;
 }
 
