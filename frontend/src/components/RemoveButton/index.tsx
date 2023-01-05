@@ -1,16 +1,16 @@
-import { Button, message, Popconfirm } from "antd";
+import { Button, Popconfirm } from "antd";
 import React from "react";
+import api from '../../services/contactService'
+import { useMutation } from "react-query";
 
 const text = 'Certeza que deseja deletar esses contatos?';
 
-const confirm = () => {
-  message.info('Contato deletado com sucesso.');
-};
 
 function RemoveButton() {
+  const { data } = useMutation('contactDelete', api.deleteById)
   return (
     <div className="agenda-button-remove">
-      <Popconfirm placement="top" title={text} onConfirm={confirm} okText="Sim" cancelText="Não" >
+      <Popconfirm placement="top" title={text} onConfirm={data} okText="Sim" cancelText="Não" >
         <Button
           style={{
             display: "inline-block",

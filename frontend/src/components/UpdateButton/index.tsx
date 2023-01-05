@@ -2,10 +2,12 @@ import React, { useState } from "react"
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 import { Button, Form, Input, Modal } from "antd";
+import api from "../../services/contactService";
+import { useMutation} from "react-query";
 
 interface Values {
-  nome: string;
-  sobreNome: string;
+  name: string;
+  lastName: string;
   tellNumber: string;
   cellNumber:string;
   observation: string;

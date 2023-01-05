@@ -1,11 +1,13 @@
-import React , { useState }from "react";
-import { Card, Radio, Table } from "antd";
+import React , { useEffect, useState }from "react";
+import { Card, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import api  from "../../services/contactService";
 import { useQuery } from "react-query";
+import { Contact } from "../../models/contact";
+import RemoveButton from "../RemoveButton";
 
 
-interface contactType {
+interface ContacType {
   id: number;
   name: string;
   lastName: string;
@@ -14,9 +16,9 @@ interface contactType {
   observation:string;
 }
 
-const columns: ColumnsType<contactType> = [
+const columns: ColumnsType<Contact> = [
 
-  {
+  { 
     title: "Nome",
     dataIndex: "name",
   },
@@ -39,20 +41,26 @@ const columns: ColumnsType<contactType> = [
 ];
 
 
-
-
-const rowSelection = {
-  onChange: (selectedRowKeys: React.Key[], selectedRows: contactType[]) => {
-    console.log(
-      `selectedRowKeys: ${selectedRowKeys}`,
-      "selectedRows: ",
-      selectedRows
-    );
-  },
-};
 function ContactCard() {
-  const [selectionType, setSelectionType] = useState<'checkbox'>('checkbox');  
-  const {data}  = useQuery('contactType', api.findAll)  
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+  
+
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+  };
+
+  useEffect(()=>{
+    
+    
+  },[setSelectedRowKeys])
+
+  const [selectionType] = useState<'checkbox'>('checkbox');  
+  const {data}  = useQuery('contactType', api.findAll) 
   return (
     <Card
       style={{
@@ -63,19 +71,14 @@ function ContactCard() {
       }}
     >
       <div>
-        <Radio.Group
-          onChange={({ target: { value } }) => {
-            setSelectionType(value);
-          }}
-          value={selectionType}
-        >
-        </Radio.Group>
-
         <Table
+          rowKey={"id"}
           rowSelection={{
             type: selectionType,
             ...rowSelection,
+            
           }}
+          
           columns={columns}
           dataSource={data?.contacts}
         />
