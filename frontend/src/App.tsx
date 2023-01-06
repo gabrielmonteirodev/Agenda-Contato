@@ -19,9 +19,6 @@ function App() {
                     <AddButton />
                   </Col>
                   <Col span={1.5}>
-                    <RemoveButton />
-                  </Col>
-                  <Col span={1.5}>
                     <UpdateButton />
                   </Col>
                 </Row>

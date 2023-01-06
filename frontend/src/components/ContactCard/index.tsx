@@ -1,4 +1,4 @@
-import React , { useEffect, useState }from "react";
+import React , { useState }from "react";
 import { Card, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import api  from "../../services/contactService";
@@ -38,6 +38,12 @@ const columns: ColumnsType<Contact> = [
     title: "Observação",
     dataIndex: "observation",
   },
+  {
+    title:"Ações",
+    key:"action",
+    dataIndex: "id",
+    render:id => (<RemoveButton id={id}/>)
+  }
 ];
 
 
@@ -54,10 +60,7 @@ function ContactCard() {
     onChange: onSelectChange,
   };
 
-  useEffect(()=>{
-    
-    
-  },[setSelectedRowKeys])
+
 
   const [selectionType] = useState<'checkbox'>('checkbox');  
   const {data}  = useQuery('contactType', api.findAll) 
