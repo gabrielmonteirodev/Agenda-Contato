@@ -9,9 +9,9 @@ model Contato{
    id Int @default(autoincrement()) @id
    name String @unique
    lastName String @unique
-   tellNumber String
+   tellNumber? String
    cellNumber String @unique
-   observation String 
+   observation? String 
 }
 
 datasource db {

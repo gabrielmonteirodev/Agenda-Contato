@@ -53,21 +53,22 @@ app.post('/contact/create/',async(req,res)=>{
     return(newContact)
 })
 
-app.put('/contact/update/:id', async (req,res) =>{
+app.put(`/contact/update/:id`, async (req,res) =>{
     const {id} = req.params as contact 
     console.log(id)
     const contactUpdate= await prisma.contato.update({
         where: {id: Number(id)},
         data: {...req.body as contact}
-    })    
+    })  
     return(contactUpdate)
 })
 
-app.delete('/contact/delete/:id', async(req,res) =>{
+app.delete(`/contact/delete/:id`, async(req,res) =>{
     const {id} = req.params as contact
     const contactDelete = await prisma.contato.delete({
-        where : {id :Number(id)}
+        where : {id :Number(id)},
     })
+    return(contactDelete)
 })
 
 
