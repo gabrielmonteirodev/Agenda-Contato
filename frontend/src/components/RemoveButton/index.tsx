@@ -27,7 +27,6 @@ function RemoveButton(props:Props) {
     try{
       await api.deleteById(props.id);
       setOpen(false);
-
     } catch(error){
       console.log(error)
     }
@@ -50,7 +49,7 @@ function RemoveButton(props:Props) {
         <Button
           style={{
             display: "inline-block",
-            marginLeft: "6px",
+            marginRight: "2px",
             flexDirection: "row",
             position: "relative",
           }}

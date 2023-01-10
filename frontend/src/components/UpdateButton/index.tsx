@@ -1,16 +1,26 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 import { Button, Form, Input, Modal } from "antd";
 import api from "../../services/contactService";
+import { useMutation} from 'react-query';
+
+
+
+type Props = {
+  id: number | string;
+}
 
 interface Values {
+  id: number;
   name: string;
   lastName: string;
   tellNumber: string;
-  cellNumber:string;
+  cellNumber: string;
   observation: string;
 }
+
+
 
 interface CollectionCreateFormProps {
   open: boolean;
@@ -18,26 +28,44 @@ interface CollectionCreateFormProps {
   onCancel: () => void;
 }
 
+
+
 const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
   open,
   onCreate,
   onCancel
 }) => {
-  const[value,setValue] = useState<string[]>([]);
-  const [form] = Form.useForm();
+  const [setValue] = useState<string[]>([]);
+  const [form] = Form.useForm(); 
+  const {mutate, data}= useMutation(api.update);
+
+
+  useEffect(() => {
+    if(data){
+      mutate({
+      id: data?.id, 
+      name: data?.name,
+      lastName: data?.lastName,
+      tellNumber: data?.tellNumber,
+      cellNumber: data?.cellNumber,
+      observation: data?.observation
+    });
+    }
+  }, [data])
+
   return (
     <Modal
       open={open}
-      title="Adicionando um novo contato"
-      okText="Adicionar"
+      title="Atualizando contato desejado"
+      okText="Atualizar"
       cancelText="Cancelar"
       onCancel={onCancel}
       onOk={() => {
         form
           .validateFields()
-          .then((values) => {
+          .then((data) => {
             form.resetFields();
-            onCreate(values);
+            onCreate(data);
           })
           .catch((info) => {
             console.log("Validate Failed:", info);
@@ -48,31 +76,36 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
         form={form}
         layout="vertical"
         name="form_in_modal"
-        initialValues={{ modifier: "public" }}
+        initialValues={{ id: data?.id, 
+          name: data?.name,
+          lastName: data?.lastName,
+          tellNumber: data?.tellNumber,
+          cellNumber: data?.cellNumber,
+          observation: data?.observation }}
       >
         <Form.Item
-          name="nome"
+          name="name"
           label="Nome"
           rules={[
             { required: true, message: "Por favor, insira um nome para o seu contato" }
           ]}
         >
-          <Input />
+          <Input value={data?.name} />
         </Form.Item>
-        <Form.Item name="sobrenome"
-        label="Sobrenome/Apelido"
-        rules={[{
-          required:true, message:"Insira um sobrenome para o seu contato" 
-        }]}
+        <Form.Item name="lastName"
+          label="Sobrenome/Apelido"
+          rules={[{
+            required: true, message: "Insira um sobrenome para o seu contato"
+          }]}
         >
-          <Input type="textarea" />
+          <Input type="textarea" value={data?.lastName} />
         </Form.Item>
-        <Form.Item name ="tellNumber" 
-        label="Telefone"
+        <Form.Item name="tellNumber"
+          label="Telefone"
         >
-        <PhoneInput
+          <PhoneInput
           placeholder=''
-          values={value}
+          values={data?.tellNumber}
           onChange={(string)=>setValue}
         />
 
@@ -85,35 +118,36 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
         >
           <PhoneInput
           placeholder=''
-          values={value}
+          values={data?.cellNumber}
           onChange={(string)=>setValue}
         />
         </Form.Item>
         <Form.Item name ="observation" 
         label="OBS:"
         >
-          <Input type="textarea" />
+          <Input type="textarea" value={data?.observation} />
         </Form.Item>
       </Form>
     </Modal>
   );
 };
 
-const UpdateButton: React.FC = () => {
+const UpdateButton: React.FC<Props> = (props) => {
   const [open, setOpen] = useState(false);
   const onCreate = (values: any) => {
     console.log("Received values of form: ", values);
     setOpen(false);
   };
 
+
   return (
     <div>
       <Button
-        danger
+        type="primary"
         onClick={() => {
           setOpen(true);
         }}
-        style={{marginLeft:"7px",
+        style={{marginRight:"2px",
       display:"flex"}}
       >
         Atualizar

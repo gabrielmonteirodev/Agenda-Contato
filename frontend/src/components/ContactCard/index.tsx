@@ -1,24 +1,23 @@
-import React , { useState }from "react";
-import { Card, Table } from "antd";
+import React from "react";
+import { Card, Space, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import api  from "../../services/contactService";
+import api from "../../services/contactService";
 import { useQuery } from "react-query";
 import { Contact } from "../../models/contact";
 import RemoveButton from "../RemoveButton";
-
+import UpdateButton from "../UpdateButton";
 
 interface ContacType {
   id: number;
   name: string;
   lastName: string;
   tellNumber: string;
-  cellNumber:string;
-  observation:string;
+  cellNumber: string;
+  observation: string;
 }
 
 const columns: ColumnsType<Contact> = [
-
-  { 
+  {
     title: "Nome",
     dataIndex: "name",
   },
@@ -39,31 +38,20 @@ const columns: ColumnsType<Contact> = [
     dataIndex: "observation",
   },
   {
-    title:"Ações",
-    key:"action",
+    title: "Ações",
+    key: "action",
     dataIndex: "id",
-    render:id => (<RemoveButton id={id}/>)
-  }
+    render: (id) => (
+      <Space>
+        <UpdateButton id={id}/>
+        <RemoveButton id={id} />
+      </Space>
+    ),
+  },
 ];
 
-
 function ContactCard() {
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
-    setSelectedRowKeys(newSelectedRowKeys);
-  };
-  
-
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: onSelectChange,
-  };
-
-
-
-  const [selectionType] = useState<'checkbox'>('checkbox');  
-  const {data}  = useQuery('contactType', api.findAll) 
+  const { data } = useQuery("contactType", api.findAll);
   return (
     <Card
       style={{
@@ -74,17 +62,11 @@ function ContactCard() {
       }}
     >
       <div>
-        <Table
-          rowKey={"id"}
-          rowSelection={{
-            type: selectionType,
-            ...rowSelection,
-            
-          }}
-          
-          columns={columns}
-          dataSource={data?.contacts}
-        />
+        <Table 
+        pagination={{defaultPageSize:5}}
+        rowKey={"id"} 
+        columns={columns} 
+        dataSource={data?.contacts} />
       </div>
     </Card>
   );
