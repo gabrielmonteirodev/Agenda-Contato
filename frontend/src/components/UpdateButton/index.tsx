@@ -4,6 +4,7 @@ import PhoneInput from 'react-phone-number-input'
 import { Button, Form, Input, Modal } from "antd";
 import api from "../../services/contactService";
 import { useMutation} from 'react-query';
+import { Contact } from "../../models/contact";
 
 
 
@@ -12,7 +13,6 @@ type Props = {
 }
 
 interface Values {
-  id: number;
   name: string;
   lastName: string;
   tellNumber: string;
@@ -35,11 +35,15 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
   onCreate,
   onCancel
 }) => {
+  const [editando ,setEditando] = useState<Contact | null>(null);
   const [setValue] = useState<string[]>([]);
   const [form] = Form.useForm(); 
   const {mutate, data}= useMutation(api.update);
 
-
+  const onEditando = async ()=>{
+    const response = await api.findById(data?.id);
+    setEditando(response);
+  }
   useEffect(() => {
     if(data){
       mutate({
@@ -51,7 +55,8 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
       observation: data?.observation
     });
     }
-  }, [data])
+  },)
+  
 
   return (
     <Modal
@@ -62,10 +67,10 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
       onCancel={onCancel}
       onOk={() => {
         form
-          .validateFields()
-          .then((data) => {
+        .validateFields()
+          .then((values) => {
             form.resetFields();
-            onCreate(data);
+            onCreate(values);
           })
           .catch((info) => {
             console.log("Validate Failed:", info);
@@ -76,12 +81,7 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
         form={form}
         layout="vertical"
         name="form_in_modal"
-        initialValues={{ id: data?.id, 
-          name: data?.name,
-          lastName: data?.lastName,
-          tellNumber: data?.tellNumber,
-          cellNumber: data?.cellNumber,
-          observation: data?.observation }}
+        initialValues={{ onEditando }}
       >
         <Form.Item
           name="name"
