@@ -59,7 +59,7 @@ app.put(`/contact/update/:id`, async (req,res) =>{
     const contactUpdate= await prisma.contato.update({
         where: {id: Number(id)},
         data: {...req.body as contact}
-    })  
+    })
     return(contactUpdate)
 })
 
