@@ -3,8 +3,8 @@ import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 import { Button, Form, Input, Modal } from "antd";
 import api from "../../services/contactService";
-import { useMutation} from 'react-query';
-import { Contact } from "../../models/contact";
+import { useMutation } from 'react-query';
+
 
 
 
@@ -35,15 +35,10 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
   onCreate,
   onCancel
 }) => {
-  const [editando ,setEditando] = useState<Contact | null>(null);
   const [setValue] = useState<string[]>([]);
   const [form] = Form.useForm(); 
   const {mutate, data}= useMutation(api.update);
 
-  const onEditando = async ()=>{
-    const response = await api.findById(data?.id);
-    setEditando(response);
-  }
   useEffect(() => {
     if(data){
       mutate({
@@ -68,9 +63,9 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
       onOk={() => {
         form
         .validateFields()
-          .then((values) => {
+          .then((data) => {
             form.resetFields();
-            onCreate(values);
+            onCreate(data);
           })
           .catch((info) => {
             console.log("Validate Failed:", info);
@@ -81,13 +76,18 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
         form={form}
         layout="vertical"
         name="form_in_modal"
-        initialValues={{ onEditando }}
+        initialValues={{ id: data?.id, 
+          name: data?.name,
+          lastName: data?.lastName,
+          tellNumber: data?.tellNumber,
+          cellNumber: data?.cellNumber,
+          observation: data?.observation  }}
       >
         <Form.Item
           name="name"
           label="Nome"
           rules={[
-            { required: true, message: "Por favor, insira um nome para o seu contato" }
+            {required: true, message: "Por favor, insira um nome para o seu contato" }
           ]}
         >
           <Input value={data?.name} />
@@ -139,6 +139,15 @@ const UpdateButton: React.FC<Props> = (props) => {
     setOpen(false);
   };
 
+  const handleOpen = async () =>{
+    try{
+      await api.findById(props.id)
+      setOpen(true)
+    }catch (error){
+      console.log(error)
+    }
+  }
+
 
   return (
     <div>
@@ -146,6 +155,7 @@ const UpdateButton: React.FC<Props> = (props) => {
         type="primary"
         onClick={() => {
           setOpen(true);
+          handleOpen()
         }}
         style={{marginRight:"2px",
       display:"flex"}}
