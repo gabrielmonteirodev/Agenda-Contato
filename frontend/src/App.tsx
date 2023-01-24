@@ -1,8 +1,11 @@
 import React from "react";
 import { Row, Col } from "antd";
-import Header from "./components/Header";
-import ContactCard from "./components/ContactCard";
-import AddButton from "./components/AddButton";
+import Header from "./components/header";
+import ContactCard from "./components/card";
+import AddButton from "./buttons/addButton";
+
+
+
 
 function App() {
   return (
@@ -13,13 +16,13 @@ function App() {
             <div className="container-contact">
               <div className="container-contact-button">
                 <Row justify="start">
-                  <Col span={1.5}>
-                    <AddButton />
+                  <Col span={1.5}> 
+                    <AddButton/>                       
                   </Col>
                 </Row>
               </div>
               <div className="container-contact-card">
-                <ContactCard />
+                <ContactCard/>                
               </div>
             </div>
           </section>

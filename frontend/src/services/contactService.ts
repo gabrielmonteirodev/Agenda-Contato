@@ -21,7 +21,7 @@ const create = async({id, name,lastName, tellNumber, cellNumber, observation }: 
     return response.data;
 }
 
-const update = async ({id, name,lastName, tellNumber, cellNumber, observation }: Contact):Promise<any> =>{
+const update = async ({id,name,lastName, tellNumber, cellNumber, observation }: Contact):Promise<Contact> =>{
     const response = await apiClient.put<any>(`/contact/update/${id}`, {name,lastName, tellNumber, cellNumber, observation })
     return response.data;
 }

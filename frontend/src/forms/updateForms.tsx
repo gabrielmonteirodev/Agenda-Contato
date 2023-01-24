@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react"
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 import { Button, Form, Input, Modal } from "antd";
-import api from "../../services/contactService";
+import api from "../services/contactService";
 import { useMutation, useQuery } from 'react-query';
-import { Contact } from "../../models/contact";
+import { Contact } from "../models/contact";
 
 
 
@@ -31,7 +31,7 @@ interface CollectionCreateFormProps {
 
 
 
-const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
+const CollectionUpdateForm: React.FC<CollectionCreateFormProps> = ({
   data,
   onCreate,
   onCancel
@@ -40,18 +40,7 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
   const [form] = Form.useForm(); 
   const {mutate}= useMutation(api.update);
 
-  useEffect(() => {
-    if(data){
-      mutate({
-      id: data?.id, 
-      name: data?.name,
-      lastName: data?.lastName,
-      tellNumber: data?.tellNumber,
-      cellNumber: data?.cellNumber,
-      observation: data?.observation
-    });
-    }
-  },)
+
   
 
   return (
@@ -135,41 +124,4 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
   );
 };
 
-const UpdateButton: React.FC<Props> = (props) => {
-  const [run, setRun] = useState(false);
-  const {data} = useQuery(['contactUpdate', props.id], ()=> api.findById(props.id),{
-    enabled: props.id !== undefined && run === true,
-    onSuccess: () => {
-      setRun(false)
-    }
-  })
-  const onCreate = (values: any) => {
-    api.update(values)
-    console.log("Received values of form: ", values);
-    setRun(false);
-  };
-
-  return (
-    <div>
-      <Button
-        type="primary"
-        onClick={() => {
-          setRun(true)
-        }}
-        style={{marginRight:"2px",
-      display:"flex"}}
-      >
-        Atualizar
-      </Button>
-      <CollectionCreateForm
-        data={data}
-        onCreate={onCreate}
-        onCancel={() => {
-          setRun(false)
-        }}
-      />
-    </div>
-  );
-};
-
-export default UpdateButton;
+export default CollectionUpdateForm;

@@ -1,6 +1,6 @@
 import { Button, Popconfirm } from "antd";
 import React, {useState} from "react";
-import api from '../../services/contactService'
+import api from '../services/contactService'
 
 const text = 'Certeza que deseja deletar esse contato?';
 

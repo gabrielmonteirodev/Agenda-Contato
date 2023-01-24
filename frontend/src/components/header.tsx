@@ -1,6 +1,6 @@
 import React from "react";
 import "./styles.css";
-const logo = require('../../assets/logo.png')
+import logo from '../assets/logo.png'
 
 function Header() {
   return (
