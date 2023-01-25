@@ -1,7 +1,7 @@
 import { Button } from 'antd';
 import React, {useState} from 'react';
 import api from '../services/contactService';
-import CollectionCreateForm from '../forms/addForm';
+import CollectionCreateForm from '../forms/ContactForm';
 
 const AddButton: React.FC = () => {
     const [open, setOpen] = useState(false);

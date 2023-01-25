@@ -4,9 +4,6 @@ import Header from "./components/header";
 import ContactCard from "./components/card";
 import AddButton from "./buttons/addButton";
 
-
-
-
 function App() {
   return (
       <>
