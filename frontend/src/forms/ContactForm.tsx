@@ -1,35 +1,30 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 import { Form, Input, Modal } from "antd";
+import { Contact } from "../models/contact";
 
-
-
-interface Values {
-    name: string;
-    lastName: string;
-    tellNumber: string;
-    cellNumber:string;
-    observation: string;
-  }
   
   interface CollectionCreateFormProps {
-    open: boolean;
-    onCreate: (values: Values) => void;
+    contact:Contact;
     onCancel: () => void;
+    onSave: (contact:Contact) => void;
   }
   
   const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
-    open,
-    onCreate,
-    onCancel
+    contact,
+    onCancel,
+    onSave
   }) => {
     const[setValue] = useState<string[]>([]);
     const [form] = Form.useForm();
-    //const {data} = useMutation('contactCreate', api.create)
+
+    useEffect(()=>{
+      form.setFieldsValue(contact);
+    }, [contact, form])
+
     return (
       <Modal
-        open={open}
         title="Adicionando um novo contato"
         okText="Adicionar"
         cancelText="Cancelar"
@@ -38,13 +33,13 @@ interface Values {
           form
             .validateFields()
             .then((values) => {
-              form.resetFields();
-              onCreate(values);
+              onSave({ ...values, id:contact.id})
             })
             .catch((info) => {
               console.log("Validate Failed:", info);
             });
         }}
+        open
       >
         <Form
           form={form}

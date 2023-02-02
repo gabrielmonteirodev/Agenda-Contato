@@ -17,17 +17,17 @@ const findById = async(id:any)=>{
 }
 
 const create = async({id, name,lastName, tellNumber, cellNumber, observation }: Contact ) => {
-    const response = await apiClient.post<any>(`/contact/create/`, {id,name, lastName, tellNumber,cellNumber,observation})
+    const response = await apiClient.post<Contact>(`/contact/create/`, {id,name, lastName, tellNumber,cellNumber,observation})
     return response.data;
 }
 
 const update = async ({id,name,lastName, tellNumber, cellNumber, observation }: Contact):Promise<Contact> =>{
-    const response = await apiClient.put<any>(`/contact/update/${id}`, {name,lastName, tellNumber, cellNumber, observation })
+    const response = await apiClient.put<Contact>(`/contact/update/${id}`, {name,lastName, tellNumber, cellNumber, observation })
     return response.data;
 }
 
 const deleteById = async (id:any) => {
-    const response = await apiClient.delete<any>(`/contact/delete/${id}`)
+    const response = await apiClient.delete<Contact>(`/contact/delete/${id}`)
     return response.data;
 }
 
