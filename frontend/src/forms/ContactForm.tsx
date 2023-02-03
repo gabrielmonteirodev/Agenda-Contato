@@ -6,7 +6,7 @@ import { Contact } from "../models/contact";
 
   
   interface CollectionCreateFormProps {
-    contact:Contact;
+    contact: Contact;
     onCancel: () => void;
     onSave: (contact:Contact) => void;
   }

@@ -18,7 +18,7 @@ async function loadContact(id: number | null) {
 }
 
 async function saveContact(contact: Contact): Promise<Contact> {
-  if (contact.id === null) {
+  if (!contact.id) {
     const createContact =  api.create(contact)
     return (createContact)
   } else{
@@ -40,25 +40,28 @@ export default function ContactPage() {
     mutationFn:saveContact,
     onSuccess:()=>{
       queryClient.invalidateQueries({queryKey:["contacts"]});
+      close()
     }
   });
   const close= () =>{
     setId(null);
+    setNewContact(null)
   }
 
-  const remove= () =>{
-    api.deleteById(id)
+  const remove= (id:number) =>{
+    api.deleteById(id).then(()=>{
+      queryClient.invalidateQueries({queryKey:["contacts"]});
+    })
   }
   const create=() =>{
     setNewContact({
-      id: undefined,
       name:"",
       lastName:"",
       tellNumber:"",
       cellNumber:"",
       observation:"",})
   }
-  const edit =( id:number )=>{
+  const edit =(id:number)=>{
     setId(id)
   }
   const save = (contact:Contact) => {
@@ -71,7 +74,7 @@ export default function ContactPage() {
       <Button danger
       onClick={create} style={{marginRight:"0px",
         display:"flex"}}> Novo </Button>
-      <ContactTable onDelete={remove}/>
+      <ContactTable onEdit={edit} data= {contactsList.data || []} onDelete={remove}/>
       {editing !== null ?(
         <ContactForm contact={editing} onCancel={close} onSave={save} />
       ): null}

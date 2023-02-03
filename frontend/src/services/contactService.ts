@@ -7,7 +7,7 @@ const apiClient = axios.create({
 });
 
 const findAll = async()=>{
-    const response = await apiClient.get<{contacts : Contact[]}>('/contact')
+    const response = await apiClient.get<Contact[]>('/contact')
     return response.data;
 }
 

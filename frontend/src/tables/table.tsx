@@ -2,23 +2,24 @@ import React from "react";
 import { AiFillDelete } from "react-icons/ai";
 import { Space, Table, Button, message, Popconfirm } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import api from "../services/contactService";
 import { Contact } from "../models/contact";
-import { useQuery } from "react-query";
+
 
 interface ContactProperties{
-  onDelete: () => void;
+  onDelete: (id:number) => void;
+  data?:Contact[];
+  onEdit:(id:number) =>void;
 }
 
-const ContactTable: React.FC<ContactProperties>= ({onDelete}) => {
-  const confirm = () => {
+const ContactTable: React.FC<ContactProperties>= ({onDelete, data, onEdit}) => {
+  const confirm = (id:number) => {
+    onDelete(id)
     message.success('Contato deletado com sucesso!')
   }
   
   const cancel = () =>{
     message.error('Cancelado')
   }
-  const { data } = useQuery("contactList", api.findAll);
   const columns: ColumnsType<Contact> = [
     {
       title: "Nome",
@@ -42,23 +43,24 @@ const ContactTable: React.FC<ContactProperties>= ({onDelete}) => {
     },
     {
       title:"Ações",
-      dataIndex:"action",
+      dataIndex:"id",
       render: (id) => (
         <Space>
           <Popconfirm 
           title="Deseja deletar este contato?"
-          onConfirm={confirm}
+          onConfirm={()=>{confirm(id)}}
           onCancel={cancel}
           okText="Sim"
           cancelText="Não">
             <Button type="primary"><AiFillDelete size={'18px'} /></Button>
           </Popconfirm>
+          <Button onClick={()=>{onEdit(id)}} type= {"primary"}>Editar</Button>
         </Space>
       ),
     }
   ];
   return (
-    <Table rowKey={"id"} columns={columns} dataSource={data?.contacts} />
+    <Table rowKey={"id"} columns={columns} dataSource={data} />
   )
 }
 export default ContactTable;
