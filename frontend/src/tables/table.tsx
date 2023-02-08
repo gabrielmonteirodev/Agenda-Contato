@@ -52,15 +52,15 @@ const ContactTable: React.FC<ContactProperties>= ({onDelete, data, onEdit}) => {
           onCancel={cancel}
           okText="Sim"
           cancelText="Não">
-            <Button type="primary"><AiFillDelete size={'18px'} /></Button>
+            <Button danger><AiFillDelete size={'18px'} /></Button>
           </Popconfirm>
-          <Button onClick={()=>{onEdit(id)}} type= {"primary"}>Editar</Button>
+          <Button onClick={()=>{onEdit(id)}} danger>Editar</Button>
         </Space>
       ),
     }
   ];
   return (
-    <Table rowKey={"id"} columns={columns} dataSource={data} />
+    <Table rowKey={"id"} columns={columns} dataSource={data} pagination={{pageSize:6}} />
   )
 }
 export default ContactTable;

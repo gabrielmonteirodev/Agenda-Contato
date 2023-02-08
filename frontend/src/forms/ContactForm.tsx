@@ -26,7 +26,7 @@ import { Contact } from "../models/contact";
     return (
       <Modal
         title="Adicionando um novo contato"
-        okText="Adicionar"
+        okText="Salvar"
         cancelText="Cancelar"
         onCancel={onCancel}
         onOk={() => {
