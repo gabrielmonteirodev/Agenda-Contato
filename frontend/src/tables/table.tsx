@@ -60,7 +60,7 @@ const ContactTable: React.FC<ContactProperties>= ({onDelete, data, onEdit}) => {
     }
   ];
   return (
-    <Table rowKey={"id"} columns={columns} dataSource={data} pagination={{pageSize:6}} />
+    <Table rowKey={"id"} columns={columns} dataSource={data} pagination={{pageSize:5}} />
   )
 }
 export default ContactTable;

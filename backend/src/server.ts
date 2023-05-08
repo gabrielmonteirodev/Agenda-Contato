@@ -25,7 +25,7 @@ app.register(require('@fastify/cors'), {
   });
 app.get ('/contact', async(req,res)=>{
     const contacts= await prisma.contact.findMany({
-        take:6,
+        take:25,
         orderBy:{name:'asc'}
     })
     console.log(contacts)

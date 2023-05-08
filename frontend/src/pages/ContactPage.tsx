@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import ContactTable from "../tables/table";
+import { AiOutlineSearch } from "react-icons/ai";
 import ContactForm from "../forms/ContactForm";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { Contact } from '../models/contact';
 import api from '../services/contactService'
-import { Button } from "antd";
+import { Button, Input, Space } from "antd";
 
 
 
@@ -19,9 +20,9 @@ async function loadContact(id: number | null) {
 
 async function saveContact(contact: Contact): Promise<Contact> {
   if (!contact.id) {
-    const createContact =  api.create(contact)
+    const createContact = api.create(contact)
     return (createContact)
-  } else{
+  } else {
     const updateContact = api.update(contact)
     return (updateContact)
   }
@@ -30,6 +31,7 @@ async function saveContact(contact: Contact): Promise<Contact> {
 export default function ContactPage() {
   const [id, setId] = useState<number | null>(null);
   const [newContact, setNewContact] = useState<Contact | null>(null);
+  const [search, setSearch] = useState<Contact | null> (null);
   const queryClient = useQueryClient();
 
   const contactsList = useQuery(["contacts"], api.findAll)
@@ -37,47 +39,53 @@ export default function ContactPage() {
   const contact = useQuery(['contactById', id], () => loadContact(id))
 
   const mutation = useMutation<Contact, Error, Contact>({
-    mutationFn:saveContact,
-    onSuccess:()=>{
-      queryClient.invalidateQueries({queryKey:["contacts"]});
+    mutationFn: saveContact,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["contacts"] });
       close()
     }
   });
-  const close= () =>{
+  const close = () => {
     setId(null);
     setNewContact(null)
   }
 
-  const remove= (id:number) =>{
-    api.deleteById(id).then(()=>{
-      queryClient.invalidateQueries({queryKey:["contacts"]});
+  const remove = (id: number) => {
+    api.deleteById(id).then(() => {
+      queryClient.invalidateQueries({ queryKey: ["contacts"] });
     })
   }
-  const create=() =>{
+  const create = () => {
     setNewContact({
-      name:"",
-      lastName:"",
-      tellNumber:"",
-      cellNumber:"",
-      observation:"",})
+      name: "",
+      lastName: "",
+      tellNumber: "",
+      cellNumber: "",
+      observation: "",
+    })
   }
-  const edit =(id:number)=>{
+  const edit = (id: number) => {
     setId(id)
   }
-  const save = (contact:Contact) => {
+  const save = (contact: Contact) => {
     mutation.mutate(contact)
   }
   const editing = contact.data || newContact;
 
-  return(
+  return (
     <div>
-      <Button danger
-      onClick={create} style={{marginRight:"0px",
-        display:"flex"}}> Novo </Button>
-      <ContactTable onEdit={edit} data= {contactsList.data || []} onDelete={remove}/>
-      {editing !== null ?(
+      <Space>
+        <Button danger
+          onClick={create} style={{
+            marginRight: "0px",
+            display: "flex"
+          }}> Novo </Button>
+        <Input placeholder="Pesquisar" prefix={<AiOutlineSearch/>} />
+      </Space>
+      <ContactTable onEdit={edit} data={contactsList.data || []} onDelete={remove} />
+      {editing !== null ? (
         <ContactForm contact={editing} onCancel={close} onSave={save} />
-      ): null}
+      ) : null}
     </div>
   )
 }
